@@ -9,7 +9,7 @@
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
     <PackageReference Include="Flurl.Http" Version="3.0.1" />
     <PackageReference Include="LightInject" Version="6.4.0" />
-    <PackageReference Include="SharpCompress" Version="0.28.1" />
+    <PackageReference Include="SharpCompress" Version="0.29.0" />
   </ItemGroup>
 
   <ItemGroup>
