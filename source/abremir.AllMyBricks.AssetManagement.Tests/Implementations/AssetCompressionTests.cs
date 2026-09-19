@@ -8,8 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using SharpCompress.Common;
-using SharpCompress.Writers.Tar;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {
@@ -57,11 +55,13 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             const string sourceFilePath = "test_file.txt";
             _assetCompression.Get<IFile>().Exists(sourceFilePath).Returns(true);
-            _assetCompression.Get<ITarWriter>().CreateTarWriter(Arg.Any<Stream>(), Arg.Any<TarWriterOptions>()).Returns(Substitute.For<TarWriter>(new MemoryStream(), new TarWriterOptions(CompressionType.LZip, true)));
+
+            var compressedTarHandler = _assetCompression.Get<ICompressedTarHandler>();
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty);
 
             Check.That(result).IsTrue();
+            compressedTarHandler.Received().CreateCompressedTarFromDirectory(Arg.Any<string>(), Arg.Any<Stream>());
         }
 
         [DataTestMethod]

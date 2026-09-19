@@ -5,20 +5,19 @@ using System.Text;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
-using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
     public class AssetExpansion(
         IFile file,
         IDirectory directory,
-        IReaderFactory readerFactory,
+        ICompressedTarHandler compressedTarHandler,
         IMessageHub messageHub)
         : IAssetExpansion
     {
         private readonly IFile _file = file;
         private readonly IDirectory _directory = directory;
-        private readonly IReaderFactory _readerFactory = readerFactory;
+        private readonly ICompressedTarHandler compressedTarHandler = compressedTarHandler;
         private readonly IMessageHub _messageHub = messageHub;
 
         public bool ExpandAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
@@ -52,33 +51,10 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             }
 
             using var workingStream = GetDecryptedStream(sourceStream, encryptionKey);
-            using var sourceReader = _readerFactory.Open(workingStream);
 
-            sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
-
-            while (sourceReader.MoveToNextEntry())
-            {
-                if (!sourceReader.Entry.IsDirectory)
-                {
-                    var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, sourceReader.Entry.Key);
-
-                    if (overwrite)
-                    {
-                        _file.DeleteFileIfExists(targetFilePath);
-                    }
-
-                    using var targetFileStream = _file.OpenWrite(targetFilePath);
-
-                    sourceReader.WriteEntryTo(targetFileStream);
-                }
-            }
+            compressedTarHandler.ExtractCompressedTarToDirectory(workingStream, targetFolderPath, overwrite);
 
             return true;
-        }
-
-        private void SourceReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
-        {
-            _messageHub.Publish(entry);
         }
 
         private static Stream GetDecryptedStream(Stream inputStream, string encryptionKey)

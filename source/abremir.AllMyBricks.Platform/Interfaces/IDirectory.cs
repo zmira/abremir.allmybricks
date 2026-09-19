@@ -6,5 +6,6 @@ namespace abremir.AllMyBricks.Platform.Interfaces
     {
         bool Exists(string path);
         DirectoryInfo CreateDirectory(string path);
+        void DeleteDirectoryIfExists(string path, bool recursive);
     }
 }
