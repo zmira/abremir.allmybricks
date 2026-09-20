@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
             _fileSystemService.Get<IFileSystem>().AppDataDirectory.Returns("./");
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, null)]
         [DataRow("", null)]
         [DataRow(" ", null)]
@@ -56,7 +56,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, null, 2)]
         [DataRow("", null, 2)]
         [DataRow(null, "", 2)]
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
             Check.That(FallbackFolderNameRegex().Matches(thumbnailFolder).Count).IsEqualTo(countOfFallbackFolderName);
         }
 
-        [DataTestMethod]
+        [TestMethod]
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
         [DataRow(null, null, false)]
         [DataRow("", null, false)]

@@ -97,10 +97,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             using var cryptoStreamEncryptor = new CryptoStream(outputStream, aes.CreateEncryptor(), CryptoStreamMode.Write);
 
-            var byteArrayInput = new byte[inputStream.Length];
-
-            inputStream.Read(byteArrayInput, 0, byteArrayInput.Length);
-            cryptoStreamEncryptor.Write(byteArrayInput, 0, byteArrayInput.Length);
+            inputStream.CopyTo(cryptoStreamEncryptor);
 
             inputStream.Close();
             cryptoStreamEncryptor.FlushFinalBlock();

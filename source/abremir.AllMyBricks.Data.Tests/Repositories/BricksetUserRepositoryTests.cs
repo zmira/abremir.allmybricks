@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             _bricksetUserRepository = new BricksetUserRepository(MemoryRepositoryService);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task Add_InvalidUsername_ReturnsNull(string username)
@@ -58,7 +58,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUser.BricksetUsername).IsEqualTo(newUsername);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task Get_InvalidUsername_ReturnsNull(string username)
@@ -92,7 +92,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUser.BricksetUsername).IsEqualTo(bricksetUserUnderTest.BricksetUsername);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task Exists_InvalidUsername_ReturnsFalse(string username)
@@ -126,7 +126,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUserExists).IsTrue();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task Remove_InvalidUsername_ReturnsFalse(string username)
@@ -162,7 +162,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(await _bricksetUserRepository.Exists(bricksetUsernameUnderTest)).IsFalse();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AddOrUpdateSet_InvalidUsername_ReturnsNull(string username)
@@ -277,7 +277,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUserSet.Wanted).IsFalse();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task GetSet_InvalidUsername_ReturnsNull(string username)
@@ -384,7 +384,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(usernameList.First()).IsEqualTo(bricksetUser.BricksetUsername);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task UpdateUserSynchronizationTimestamp_InvalidUsername_ReturnsNull(string username)
@@ -501,7 +501,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId)).Contains(bricksetUserSetOwned.Set.SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task RemoveSets_InvalidUsername_Returns(string username)

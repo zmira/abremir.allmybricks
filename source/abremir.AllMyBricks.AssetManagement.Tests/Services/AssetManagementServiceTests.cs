@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
             _assetManagementService = new NSubstituteAutoMocker<AssetManagementService>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("", "C:\\", true)]
         [DataRow(null, "C:\\", true)]
         [DataRow("http", "C:\\", true)]

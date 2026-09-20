@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetCompression = new NSubstituteAutoMocker<AssetCompression>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("", true, null, false)]
         [DataRow(null, true, null, false)]
         [DataRow("source_file_path.txt", false, null, false)]
@@ -64,7 +64,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             compressedTarHandler.Received().CreateCompressedTarFromDirectory(Arg.Any<string>(), Arg.Any<Stream>());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         public void GetCompressedAssetFileName_InvalidFilePath_ReturnsNull(string fileName)
@@ -74,8 +74,8 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             Check.That(result).IsNull();
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetTestFilePaths))]
         public void GetCompressedAssetFileName_ValidFilePath_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
@@ -83,8 +83,8 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lz");
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetTestFilePaths))]
         public void GetCompressedAssetFileName_ValidFilePathAndEncrypted_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, true);

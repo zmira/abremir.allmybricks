@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetExpansion = new NSubstituteAutoMocker<AssetExpansion>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(false, true)]
         [DataRow(true, false)]
         public void ExpandAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validTargetFolder)
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             Check.That(result).IsFalse();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true, true)]
         [DataRow("", true, true)]
         [DataRow("test_file.txt", false, true)]
