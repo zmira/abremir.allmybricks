@@ -8,6 +8,11 @@ namespace abremir.AllMyBricks.Platform.Implementations
 {
     public class FileImplementation : IFile
     {
+        public void Copy(string sourceFileName, string destFileName, bool overwrite)
+        {
+            File.Copy(sourceFileName, destFileName, overwrite);
+        }
+
         public void Delete(string path)
         {
             File.Delete(path);

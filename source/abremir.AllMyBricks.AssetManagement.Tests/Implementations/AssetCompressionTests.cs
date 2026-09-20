@@ -8,8 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using SharpCompress.Common;
-using SharpCompress.Writers.Tar;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {
@@ -24,7 +22,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetCompression = new NSubstituteAutoMocker<AssetCompression>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("", true, null, false)]
         [DataRow(null, true, null, false)]
         [DataRow("source_file_path.txt", false, null, false)]
@@ -57,14 +55,16 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             const string sourceFilePath = "test_file.txt";
             _assetCompression.Get<IFile>().Exists(sourceFilePath).Returns(true);
-            _assetCompression.Get<ITarWriter>().CreateTarWriter(Arg.Any<Stream>(), Arg.Any<TarWriterOptions>()).Returns(Substitute.For<TarWriter>(new MemoryStream(), new TarWriterOptions(CompressionType.LZip, true)));
+
+            var compressedTarHandler = _assetCompression.Get<ICompressedTarHandler>();
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty);
 
             Check.That(result).IsTrue();
+            compressedTarHandler.Received().CreateCompressedTarFromDirectory(Arg.Any<string>(), Arg.Any<Stream>());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         public void GetCompressedAssetFileName_InvalidFilePath_ReturnsNull(string fileName)
@@ -74,22 +74,22 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             Check.That(result).IsNull();
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetTestFilePaths))]
         public void GetCompressedAssetFileName_ValidFilePath_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
 
-            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lz");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.tgz");
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetTestFilePaths))]
         public void GetCompressedAssetFileName_ValidFilePathAndEncrypted_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, true);
 
-            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lzc");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.enc");
         }
 
         public static IEnumerable<object[]> GetTestFilePaths()

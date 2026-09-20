@@ -18,8 +18,7 @@ namespace abremir.AllMyBricks.AssetManagement.Configuration
                 .AddTransient<IAssetExpansion, AssetExpansion>()
                 .AddTransient<IAssetManagementService, AssetManagementService>()
                 .AddTransient<IFileStream, FileStreamImplementation>()
-                .AddTransient<ITarWriter, TarWriterImplementation>()
-                .AddTransient<IReaderFactory, ReaderFactoryImplementation>()
+                .AddTransient<ICompressedTarHandler, CompressedTarHandler>()
                 .AddPlatformIoServices();
         }
     }

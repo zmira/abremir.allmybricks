@@ -5,20 +5,19 @@ using System.Text;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
-using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
     public class AssetExpansion(
         IFile file,
         IDirectory directory,
-        IReaderFactory readerFactory,
+        ICompressedTarHandler compressedTarHandler,
         IMessageHub messageHub)
         : IAssetExpansion
     {
         private readonly IFile _file = file;
         private readonly IDirectory _directory = directory;
-        private readonly IReaderFactory _readerFactory = readerFactory;
+        private readonly ICompressedTarHandler compressedTarHandler = compressedTarHandler;
         private readonly IMessageHub _messageHub = messageHub;
 
         public bool ExpandAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
@@ -52,33 +51,10 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             }
 
             using var workingStream = GetDecryptedStream(sourceStream, encryptionKey);
-            using var sourceReader = _readerFactory.Open(workingStream);
 
-            sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
-
-            while (sourceReader.MoveToNextEntry())
-            {
-                if (!sourceReader.Entry.IsDirectory)
-                {
-                    var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, sourceReader.Entry.Key);
-
-                    if (overwrite)
-                    {
-                        _file.DeleteFileIfExists(targetFilePath);
-                    }
-
-                    using var targetFileStream = _file.OpenWrite(targetFilePath);
-
-                    sourceReader.WriteEntryTo(targetFileStream);
-                }
-            }
+            compressedTarHandler.ExtractCompressedTarToDirectory(workingStream, targetFolderPath, overwrite);
 
             return true;
-        }
-
-        private void SourceReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
-        {
-            _messageHub.Publish(entry);
         }
 
         private static Stream GetDecryptedStream(Stream inputStream, string encryptionKey)
@@ -93,16 +69,13 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             var hash = SHA256.HashData(Encoding.ASCII.GetBytes(encryptionKey));
 
             using var aes = Aes.Create();
-            aes.Key = hash.Take(32).ToArray();
-            aes.IV = hash.Take(16).ToArray();
+            aes.Key = [.. hash.Take(32)];
+            aes.IV = [.. hash.Take(16)];
 
             using var outputStream = new MemoryStream();
             using var cryptoStreamDecryptor = new CryptoStream(inputStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
 
-            var byteArrayInput = new byte[inputStream.Length];
-
-            cryptoStreamDecryptor.Read(byteArrayInput, 0, byteArrayInput.Length);
-            outputStream.Write(byteArrayInput, 0, byteArrayInput.Length);
+            cryptoStreamDecryptor.CopyTo(outputStream);
 
             outputStream.Flush();
             outputStream.Position = 0;

@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task Get_InvalidThemeName_ReturnsNull(string themeName)
@@ -90,14 +90,14 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allThemesForYear).IsEmpty();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.FirstThemeYearTo, 2)]
         [DataRow(ModelsSetup.SecondThemeYearTo, 1)]
         public async Task AllForYear_HasThemesForYear_ReturnsModels(short year, int expectedCount)
         {
             await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemesForYear = (await _themeRepository.AllForYear(year)).ToList();
+            List<Theme> allThemesForYear = [.. (await _themeRepository.AllForYear(year))];
 
             Check.That(allThemesForYear).CountIs(expectedCount);
         }
@@ -110,7 +110,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(theme).IsNull();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AddOrUpdate_InvalidTheme_ReturnsNull(string themeName)

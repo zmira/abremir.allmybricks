@@ -71,7 +71,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _httpTest.ShouldNotHaveMadeACall();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         public async Task Synchronize_InvalidThumbnailUrl_HttpNotInvoked(string thumbnailUrl)

@@ -150,7 +150,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return 0;
             }
 
-            var bricksetUserSets = bricksetUser.Sets.Where(set => setIds.Contains(set.Set.SetId)).ToList();
+            List<BricksetUserSet> bricksetUserSets = [.. bricksetUser.Sets.Where(set => setIds.Contains(set.Set.SetId))];
             var setCount = bricksetUserSets.Count;
 
             if (setCount is not 0)

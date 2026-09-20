@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSets.Select(set => set.SetId)).IsEquivalentTo(listOfSetsUnderTest.Select(set => set.SetId));
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
@@ -115,7 +115,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForTheme.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, null)]
         [DataRow(null, ModelsSetup.StringEmpty)]
         [DataRow(ModelsSetup.StringEmpty, null)]
@@ -176,7 +176,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForSubtheme.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AllForThemeGroup_InvalidThemeGroupName_ReturnsEmpty(string themeGroupName)
@@ -213,7 +213,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForThemeGroup.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AllForCategory_InvalidCategoryName_ReturnsEmpty(string categoryName)
@@ -252,7 +252,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForCategory.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AllForTag_InvalidTagName_ReturnsEmpty(string tagName)
@@ -326,7 +326,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForYear.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(-1, 0)]
         [DataRow(0, -1)]
         public async Task AllForPriceRange_InvalidPrice_ReturnsEmpty(float minPrice, float maxPrice)
@@ -397,7 +397,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSetsForPriceRange.First().SetId).IsEqualTo(set.SetId);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         [DataRow(" ")]
@@ -426,7 +426,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(searchResult).IsEmpty();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("name")]
         [DataRow("number")]
         [DataRow("ean")]

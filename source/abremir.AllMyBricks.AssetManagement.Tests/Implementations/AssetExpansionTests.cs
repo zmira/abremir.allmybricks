@@ -1,11 +1,11 @@
 using System.IO;
 using abremir.AllMyBricks.AssetManagement.Implementations;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using SharpCompress.Readers;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {
@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetExpansion = new NSubstituteAutoMocker<AssetExpansion>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(false, true)]
         [DataRow(true, false)]
         public void ExpandAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validTargetFolder)
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             Check.That(result).IsFalse();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true, true)]
         [DataRow("", true, true)]
         [DataRow("test_file.txt", false, true)]
@@ -54,17 +54,12 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetExpansion.Get<IFile>().GetAttributes(Arg.Any<string>()).Returns(FileAttributes.Directory);
             _assetExpansion.Get<IDirectory>().Exists(Arg.Any<string>()).Returns(true);
 
-            var reader = Substitute.For<IReader>();
-            reader.MoveToNextEntry().Returns(true, false);
-            reader.Entry.IsDirectory.Returns(false);
-            reader.Entry.Key.Returns("test_file.txt");
-
-            _assetExpansion.Get<Interfaces.IReaderFactory>().Open(Arg.Any<Stream>()).Returns(reader);
+            var compressedTarHandler = _assetExpansion.Get<ICompressedTarHandler>();
 
             var result = _assetExpansion.ClassUnderTest.ExpandAsset(new MemoryStream(), string.Empty);
 
             Check.That(result).IsTrue();
-            reader.Received().WriteEntryTo(Arg.Any<Stream>());
+            compressedTarHandler.Received().ExtractCompressedTarToDirectory(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>());
         }
     }
 }

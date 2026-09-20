@@ -14,5 +14,6 @@ namespace abremir.AllMyBricks.Platform.Interfaces
         FileStream OpenWrite(string path);
         FileAttributes GetAttributes(string path);
         FileSize GetFileSize(string path);
+        void Copy(string sourceFileName, string destFileName, bool overwrite);
     }
 }

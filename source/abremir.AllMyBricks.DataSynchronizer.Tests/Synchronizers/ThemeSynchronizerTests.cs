@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
@@ -11,7 +12,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -55,8 +55,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsListOfThemes_AllThemesAreSaved()
         {
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var yearsList = JsonSerializer.Deserialize<List<Years>>(
+                GetResultFileFromResource(Constants.JsonFileGetYears),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService.GetThemes(Arg.Any<ParameterApiKey>()).Returns(themesList);

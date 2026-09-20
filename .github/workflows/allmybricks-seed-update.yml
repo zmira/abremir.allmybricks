@@ -11,9 +11,9 @@ permissions:
 env:
   DATA_REPO: zmira/abremir.allmybricks.databaseseed
   PROJECT_PATH: source/abremir.AllMyBricks.DatabaseSeeder/abremir.AllMyBricks.DatabaseSeeder.csproj
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: 10
   PUBLISH_DIR: ./publish
-  ASSET_NAME: allmybricks.db.seed.lzc
+  ASSET_NAME: allmybricks.db.seed.enc
 
 jobs:
   update-database-seed:
@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout AllMyBricks
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup .NET ${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -63,8 +63,8 @@ jobs:
             --repo "$DATA_REPO" \
             --pattern "$ASSET_NAME" \
             --dir ${{ env.PUBLISH_DIR }}/data
-          mv ${{ env.PUBLISH_DIR }}/data/${{ env.ASSET_NAME }} ${{ env.PUBLISH_DIR }}/data/allmybricks.lzc
-          echo "Asset downloaded and renamed to allmybricks.lzc successfully."
+          mv ${{ env.PUBLISH_DIR }}/data/${{ env.ASSET_NAME }} ${{ env.PUBLISH_DIR }}/data/allmybricks.enc
+          echo "Asset downloaded and renamed to allmybricks.enc successfully."
 
       - name: Run processing executable
         working-directory: ${{ env.PUBLISH_DIR }}
@@ -78,7 +78,7 @@ jobs:
           ./abremir.AllMyBricks.DatabaseSeeder compact
           ./abremir.AllMyBricks.DatabaseSeeder compress --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
 
-          mv ./data/allmybricks.lzc ./${{ env.ASSET_NAME }}
+          mv ./data/allmybricks.enc ./${{ env.ASSET_NAME }}
           echo "Processing complete."
 
       - name: Verify output file exists

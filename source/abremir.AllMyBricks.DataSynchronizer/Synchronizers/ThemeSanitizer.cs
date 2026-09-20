@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
@@ -54,19 +55,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey
             };
 
-            var bricksetThemes = (await BricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false))
-                .Select(theme => theme.Theme)
-                .Order()
-                .ToList();
+            List<string> bricksetThemes = [.. (await BricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false)).Select(theme => theme.Theme).Order()];
 
             MessageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
 
-            var allMyBricksThemes = (await ThemeRepository.All().ConfigureAwait(false))
-                .Select(theme => theme.Name)
-                .Order()
-                .ToList();
+            List<string> allMyBricksThemes = [.. (await ThemeRepository.All().ConfigureAwait(false)).Select(theme => theme.Name).Order()];
 
-            var themesToDelete = allMyBricksThemes.Except(bricksetThemes).ToList();
+            List<string> themesToDelete = [.. allMyBricksThemes.Except(bricksetThemes)];
 
             if (themesToDelete.Count is not 0)
             {
@@ -74,18 +69,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 foreach (var theme in themesToDelete)
                 {
-                    var allMyBricksSubthemes = (await SubthemeRepository.AllForTheme(theme).ConfigureAwait(false))
-                        .Select(subtheme => subtheme.Name)
-                        .Order()
-                        .ToList();
+                    List<string> allMyBricksSubthemes = [.. (await SubthemeRepository.AllForTheme(theme).ConfigureAwait(false)).Select(subtheme => subtheme.Name).Order()];
 
                     MessageHub.Publish(new DeletingSubthemesStart { AffectedTheme = theme, AffectedSubthemes = allMyBricksSubthemes });
 
                     foreach (var subtheme in allMyBricksSubthemes)
                     {
-                        var allMyBricksSets = (await SetRepository.AllForSubtheme(theme, subtheme).ConfigureAwait(false))
-                            .Select(set => set.SetId)
-                            .ToList();
+                        List<long> allMyBricksSets = [.. (await SetRepository.AllForSubtheme(theme, subtheme).ConfigureAwait(false)).Select(set => set.SetId)];
 
                         await DeleteSets(allMyBricksSets);
                     }

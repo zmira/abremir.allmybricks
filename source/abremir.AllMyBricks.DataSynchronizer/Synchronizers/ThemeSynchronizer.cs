@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     ApiKey = apiKey
                 };
 
-                var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false)).ToList();
+                List<ThirdParty.Brickset.Models.Themes> bricksetThemes = [.. (await _bricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false))];
 
                 _messageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
 
@@ -61,9 +61,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Theme = bricksetTheme.Theme
                     };
 
-                    theme.SetCountPerYear = (await _bricksetApiService.GetYears(getYearsParameters).ConfigureAwait(false))
-                        .ToYearSetCountEnumerable()
-                        .ToList();
+                    theme.SetCountPerYear = [.. (await _bricksetApiService.GetYears(getYearsParameters).ConfigureAwait(false)).ToYearSetCountEnumerable()];
 
                     var persistedTheme = await _themeRepository.Get(theme.Name).ConfigureAwait(false);
 

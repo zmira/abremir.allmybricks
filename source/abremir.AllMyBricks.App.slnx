@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="abremir.AllMyBricks.AssetManagement.Tests/abremir.AllMyBricks.AssetManagement.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.Data.Tests.Shared/abremir.AllMyBricks.Data.Tests.Shared.csproj" />
+    <Project Path="abremir.AllMyBricks.Data.Tests/abremir.AllMyBricks.Data.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.DataSynchronizer.Tests/abremir.AllMyBricks.DataSynchronizer.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.Onboarding.Tests/abremir.AllMyBricks.Onboarding.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.Platform.Tests/abremir.AllMyBricks.Platform.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.ThirdParty.Brickset.Tests/abremir.AllMyBricks.ThirdParty.Brickset.Tests.csproj" />
+    <Project Path="abremir.AllMyBricks.UserManagement.Tests/abremir.AllMyBricks.UserManagement.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="abremir.AllMyBricks.DatabaseSeeder/abremir.AllMyBricks.DatabaseSeeder.csproj" />
+  </Folder>
+  <Project Path="abremir.AllMyBricks.AssetManagement/abremir.AllMyBricks.AssetManagement.csproj" />
+  <Project Path="abremir.AllMyBricks.Data/abremir.AllMyBricks.Data.csproj" />
+  <Project Path="abremir.AllMyBricks.DataSynchronizer/abremir.AllMyBricks.DataSynchronizer.csproj" />
+  <Project Path="abremir.AllMyBricks.Onboarding.Shared/abremir.AllMyBricks.Onboarding.Shared.csproj" />
+  <Project Path="abremir.AllMyBricks.Onboarding/abremir.AllMyBricks.Onboarding.csproj" />
+  <Project Path="abremir.AllMyBricks.Platform/abremir.AllMyBricks.Platform.csproj" />
+  <Project Path="abremir.AllMyBricks.ThirdParty.Brickset/abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
+  <Project Path="abremir.AllMyBricks.UserManagement/abremir.AllMyBricks.UserManagement.csproj" />
+</Solution>

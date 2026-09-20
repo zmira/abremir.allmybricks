@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
@@ -54,7 +55,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Theme = theme.Name
                     };
 
-                    var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters).ConfigureAwait(false)).ToList();
+                    List<ThirdParty.Brickset.Models.Subthemes> bricksetSubthemes = [.. (await _bricksetApiService.GetSubthemes(getSubthemesParameters).ConfigureAwait(false))];
 
                     _messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
 

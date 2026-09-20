@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             _referenceDataRepository = new ReferenceDataRepository(MemoryRepositoryService);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public async Task GetOrAdd_InvalidCategoryReferenceDataValue_ReturnsNull(string referenceDataValue)
@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await GetOrAddTestHelper<Category>(referenceDataValue, null);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public async Task GetOrAdd_InvalidPackagingTypeReferenceDataValue_ReturnsNull(string referenceDataValue)
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await GetOrAddTestHelper<PackagingType>(referenceDataValue, null);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public async Task GetOrAdd_InvalidTagReferenceDataValue_ReturnsNull(string referenceDataValue)
@@ -43,7 +43,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await GetOrAddTestHelper<Tag>(referenceDataValue, null);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public async Task GetOrAdd_InvalidThemeGroupReferenceDataValue_ReturnsNull(string referenceDataValue)

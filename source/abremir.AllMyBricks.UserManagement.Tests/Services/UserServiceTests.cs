@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
             Check.That(addedDefaultUser).IsTrue();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, "password", true, false, false)]
         [DataRow("", "password", true, false, false)]
         [DataRow(" ", "password", true, false, false)]
@@ -79,7 +79,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
             Check.That(addedPrimaryUser).IsFalse();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         [DataRow(" ")]
@@ -116,7 +116,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
             Check.That(addedPrimaryUser).IsTrue();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true, false)]
         [DataRow("", true, false)]
         [DataRow(" ", true, false)]
@@ -150,7 +150,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
             Check.That(addedFriend).IsTrue();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true)]
         [DataRow("", true)]
         [DataRow(" ", true)]
@@ -177,7 +177,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
             Check.That(bricksetPrimaryUserRemoved).IsTrue();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true)]
         [DataRow("", true)]
         [DataRow(" ", true)]

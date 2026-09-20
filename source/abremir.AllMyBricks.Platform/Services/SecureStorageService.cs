@@ -32,7 +32,9 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public async Task<Identification> GetDeviceIdentification()
         {
-            return JsonSerializer.Deserialize<Identification>(await GetRawDeviceIdentification().ConfigureAwait(false));
+            return JsonSerializer.Deserialize<Identification>(
+                await GetRawDeviceIdentification().ConfigureAwait(false),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
         }
 
         public async Task<bool> IsDeviceIdentificationCreated()
@@ -50,12 +52,16 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public async Task<string> GetBricksetUserHash(string username)
         {
-            return JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false))?[username];
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(
+                await GetRawBricksetPrimaryUsers().ConfigureAwait(false),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value)?[username];
         }
 
         public async Task SaveBricksetPrimaryUser(string username, string userHash)
         {
-            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
+            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(
+                await GetRawBricksetPrimaryUsers().ConfigureAwait(false),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value) ?? [];
 
             if (bricksetUsers.TryAdd(username, userHash))
             {
@@ -65,7 +71,9 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public async Task<bool> ClearBricksetPrimaryUser(string username)
         {
-            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
+            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(
+                await GetRawBricksetPrimaryUsers().ConfigureAwait(false),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value) ?? [];
 
             if (!bricksetUsers.ContainsKey(username))
             {

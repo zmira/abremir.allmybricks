@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
@@ -13,7 +14,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -56,12 +56,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSubthemes_NothingIsSaved()
         {
-            var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
+            var testTheme = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value)
                 .First(themes => themes.Theme is Constants.TestThemeArchitecture);
-            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var yearsList = JsonSerializer.Deserialize<List<Years>>(
+                GetResultFileFromResource(Constants.JsonFileGetYears),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var theme = testTheme.ToTheme();
-            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
+            theme.SetCountPerYear = [.. yearsList.ToYearSetCountEnumerable()];
 
             await _themeRepository.AddOrUpdate(theme);
 
@@ -78,13 +82,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
         {
-            var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
+            var testTheme = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value)
                 .First(themes => themes.Theme is Constants.TestThemeArchitecture);
-            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var yearsList = JsonSerializer.Deserialize<List<Years>>(
+                GetResultFileFromResource(Constants.JsonFileGetYears),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var theme = testTheme.ToTheme();
-            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
+            theme.SetCountPerYear = [.. yearsList.ToYearSetCountEnumerable()];
 
             await _themeRepository.AddOrUpdate(theme);
 

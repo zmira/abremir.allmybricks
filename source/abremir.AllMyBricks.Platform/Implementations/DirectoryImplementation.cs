@@ -10,6 +10,16 @@ namespace abremir.AllMyBricks.Platform.Implementations
             return Directory.CreateDirectory(path);
         }
 
+        public void DeleteDirectoryIfExists(string path, bool recursive)
+        {
+            if (!Exists(path))
+            {
+                return;
+            }
+
+            Directory.Delete(path, recursive);
+        }
+
         public bool Exists(string path)
         {
             return Directory.Exists(path);

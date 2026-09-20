@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             _subthemeRepository = new SubthemeRepository(MemoryRepositoryService);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, null)]
         [DataRow(ModelsSetup.StringEmpty, null)]
         [DataRow(null, ModelsSetup.StringEmpty)]
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(subtheme).IsNull();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.ThemeUnderTestName, ModelsSetup.NonExistentSubthemeName)]
         [DataRow(ModelsSetup.NonExistentThemeName, ModelsSetup.SubthemeUnderTestName)]
         public async Task Get_SubthemeDoesNotExist_ReturnsNull(string themeName, string subthemeName)
@@ -119,7 +119,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSubthemesForYear).IsEmpty();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(ModelsSetup.FirstSubthemeYearFrom, 1)]
         [DataRow(ModelsSetup.SecondSubthemeYearFrom, 2)]
         public async Task AllForYear_HasSubthemesForYear_ReturnsModels(short year, int expectedCount)
@@ -137,7 +137,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(allSubthemesForYear).CountIs(expectedCount);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
@@ -197,7 +197,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(subtheme).IsNull();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AddOrUpdate_InvalidSubtheme_ReturnsNull(string subthemeName)
@@ -219,7 +219,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(subtheme).IsNull();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
         public async Task AddOrUpdate_InvalidTheme_ReturnsNull(string themeName)
@@ -291,7 +291,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(savedSubtheme.YearTo).IsEqualTo(subthemeUnderTest.YearTo);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null)]
         [DataRow("")]
         [DataRow(" ")]

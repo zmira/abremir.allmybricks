@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             _userSynchronizationService = new NSubstituteAutoMocker<UserSynchronizationService>();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("")]
         [DataRow(null)]
         [DataRow(" ")]
@@ -151,7 +151,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             _userSynchronizationService.Get<IMessageHub>().DidNotReceive().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("")]
         [DataRow(null)]
         [DataRow(" ")]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
@@ -16,7 +17,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -82,10 +82,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             var insightsRepository = Substitute.For<IInsightsRepository>();
             insightsRepository.GetDataSynchronizationTimestamp().Returns(DateTimeOffset.Now);
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
             var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var theme = testTheme.ToTheme();
-            var recentlyUpdatedSetsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
+            var recentlyUpdatedSetsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             await _themeRepository.AddOrUpdate(theme);
 
