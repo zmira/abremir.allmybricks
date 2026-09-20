@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
 
             Check.That(thumbnailFolder).Not.IsNullOrWhiteSpace().And.Contains(Constants.AllMyBricksDataFolder).And.Contains(Constants.ThumbnailCacheFolder);
 
-            Check.That(FallbackFolderNameRegex().Matches(thumbnailFolder).Count).IsEqualTo(countOfFallbackFolderName);
+            Check.That(FallbackFolderNameRegex().Count(thumbnailFolder)).IsEqualTo(countOfFallbackFolderName);
         }
 
         [TestMethod]
