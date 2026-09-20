@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
@@ -15,7 +16,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -79,9 +79,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSets_NothingIsSaved()
         {
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
             var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
-            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var yearsList = JsonSerializer.Deserialize<List<Years>>(
+                GetResultFileFromResource(Constants.JsonFileGetYears),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
@@ -102,14 +106,26 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
             var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
-            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var yearsList = JsonSerializer.Deserialize<List<Years>>(
+                GetResultFileFromResource(Constants.JsonFileGetYears),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
             var testSet = setsList.First(set => set.SetId is Constants.TestSetId);
-            var additionalImagesList = JsonConvert.DeserializeObject<List<SetImage>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
-            var instructionsList = JsonConvert.DeserializeObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
+            var additionalImagesList = JsonSerializer.Deserialize<List<SetImage>>(
+                GetResultFileFromResource(Constants.JsonFileGetAdditionalImages),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var instructionsList = JsonSerializer.Deserialize<List<Instructions>>(
+                GetResultFileFromResource(Constants.JsonFileGetInstructions),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
 
             var theme = testTheme.ToTheme();

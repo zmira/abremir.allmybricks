@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
@@ -14,7 +15,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
 
@@ -64,9 +64,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             await _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var testSetOwned = setsList[0];
             testSetOwned.Collection = new SetCollection
@@ -139,9 +145,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             await _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -192,9 +204,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             await _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -252,9 +270,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             await _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -360,9 +384,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTFRIEND";
             await _bricksetUserRepository.Add(BricksetUserType.Friend, testUser);
 
-            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonSerializer.Deserialize<List<Themes>>(
+                GetResultFileFromResource(Constants.JsonFileGetThemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var subthemesList = JsonSerializer.Deserialize<List<Subthemes>>(
+                GetResultFileFromResource(Constants.JsonFileGetSubthemes),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
+            var setsList = JsonSerializer.Deserialize<List<Sets>>(
+                GetResultFileFromResource(Constants.JsonFileGetSets),
+                Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var testSetOwned = setsList[0];
             testSetOwned.Collection = new SetCollection
