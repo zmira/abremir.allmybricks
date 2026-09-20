@@ -115,7 +115,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 return null;
             }
 
-            return $"{Path.GetFileNameWithoutExtension(expandedFilePath)}.lz{(encrypted ? "c" : string.Empty)}";
+            return $"{Path.GetFileNameWithoutExtension(expandedFilePath)}.{(encrypted ? "enc" : "tgz")}";
         }
     }
 }

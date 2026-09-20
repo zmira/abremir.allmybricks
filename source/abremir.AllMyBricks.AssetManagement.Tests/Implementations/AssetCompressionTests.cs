@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
 
-            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lz");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.tgz");
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, true);
 
-            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lzc");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.enc");
         }
 
         public static IEnumerable<object[]> GetTestFilePaths()
