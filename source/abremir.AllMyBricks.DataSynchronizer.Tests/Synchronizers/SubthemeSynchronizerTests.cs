@@ -65,7 +65,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var theme = testTheme.ToTheme();
-            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
+            theme.SetCountPerYear = [.. yearsList.ToYearSetCountEnumerable()];
 
             await _themeRepository.AddOrUpdate(theme);
 
@@ -94,7 +94,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 Onboarding.Shared.Configuration.Constants.JsonSerializerOptions.Value);
 
             var theme = testTheme.ToTheme();
-            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
+            theme.SetCountPerYear = [.. yearsList.ToYearSetCountEnumerable()];
 
             await _themeRepository.AddOrUpdate(theme);
 

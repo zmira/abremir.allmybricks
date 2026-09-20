@@ -97,7 +97,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemesForYear = (await _themeRepository.AllForYear(year)).ToList();
+            List<Theme> allThemesForYear = [.. (await _themeRepository.AllForYear(year))];
 
             Check.That(allThemesForYear).CountIs(expectedCount);
         }

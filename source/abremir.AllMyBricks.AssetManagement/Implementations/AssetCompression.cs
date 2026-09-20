@@ -92,8 +92,8 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             var hash = SHA256.HashData(Encoding.ASCII.GetBytes(encryptionKey));
 
             using var aes = Aes.Create();
-            aes.Key = hash.Take(32).ToArray();
-            aes.IV = hash.Take(16).ToArray();
+            aes.Key = [.. hash.Take(32)];
+            aes.IV = [.. hash.Take(16)];
 
             using var cryptoStreamEncryptor = new CryptoStream(outputStream, aes.CreateEncryptor(), CryptoStreamMode.Write);
 

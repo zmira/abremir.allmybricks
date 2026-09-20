@@ -208,11 +208,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             Dictionary<string, string> queryList = [];
-            var searchTerms = searchQuery
-                .Split(' ', '-')
-                .Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)
-                .Distinct()
-                .ToList();
+            List<string> searchTerms = [.. searchQuery.Split(' ', '-').Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize).Distinct()];
 
             for (int i = 0; i < searchTerms.Count; i++)
             {

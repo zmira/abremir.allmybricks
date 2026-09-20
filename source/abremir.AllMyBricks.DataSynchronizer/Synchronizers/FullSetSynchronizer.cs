@@ -61,7 +61,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             List<List<string>> queries = [];
             var tempSetCount = 0;
             List<string> tempYearList = [];
-            var orderedYears = yearSetCount.Keys.Order().ToList();
+            List<short> orderedYears = [.. yearSetCount.Keys.Order()];
 
             for (var i = 0; i < orderedYears.Count; i++)
             {

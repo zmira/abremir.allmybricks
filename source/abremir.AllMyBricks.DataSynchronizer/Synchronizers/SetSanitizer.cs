@@ -123,12 +123,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     MessageHub.Publish(new AcquiringSetsEnd { Count = bricksetSetsFromThemeWithDifferences.Count, Type = SetAcquisitionType.Sanitize, Parameters = getSetsParameters });
 
-                    var identifiedThemes = themesWithDifferences[year].ToList();
+                    List<string> identifiedThemes = [.. themesWithDifferences[year]];
                     var allMyBricksSetsFromThemeWithDifferences = (await SetRepository.Find(set => set.Year == year && identifiedThemes.Contains(set.Theme.Name)))
                         .Select(set => set.SetId)
                         .Order();
 
-                    var setsToDelete = allMyBricksSetsFromThemeWithDifferences.Except(bricksetSetIds).ToList();
+                    List<long> setsToDelete = [.. allMyBricksSetsFromThemeWithDifferences.Except(bricksetSetIds)];
 
                     await DeleteSets(setsToDelete);
 

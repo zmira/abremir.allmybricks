@@ -503,7 +503,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
-                MenuBar.Menus = MenuBar.Menus.Where(menu => menu.Title != synchronizeMenuTitle).ToArray();
+                MenuBar.Menus = [.. MenuBar.Menus.Where(menu => menu.Title != synchronizeMenuTitle)];
 
                 return;
             }

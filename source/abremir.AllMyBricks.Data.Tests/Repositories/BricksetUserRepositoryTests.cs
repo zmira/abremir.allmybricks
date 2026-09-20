@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
@@ -455,7 +456,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetWanted);
             await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetOwned);
 
-            var bricksetUserSetList = (await _bricksetUserRepository.GetWantedSets(bricksetUser.BricksetUsername)).ToList();
+            List<BricksetUserSet> bricksetUserSetList = [.. (await _bricksetUserRepository.GetWantedSets(bricksetUser.BricksetUsername))];
 
             Check.That(bricksetUserSetList).CountIs(1);
             Check.That(bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId)).Contains(bricksetUserSetWanted.Set.SetId);
@@ -495,7 +496,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetWanted);
             await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetOwned);
 
-            var bricksetUserSetList = (await _bricksetUserRepository.GetOwnedSets(bricksetUser.BricksetUsername)).ToList();
+            List<BricksetUserSet> bricksetUserSetList = [.. (await _bricksetUserRepository.GetOwnedSets(bricksetUser.BricksetUsername))];
 
             Check.That(bricksetUserSetList).CountIs(1);
             Check.That(bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId)).Contains(bricksetUserSetOwned.Set.SetId);

@@ -116,9 +116,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Images = (await BricksetApiService.GetAdditionalImages(getAdditionalImagesParameters).ConfigureAwait(false))
-                    .ToImageEnumerable()
-                    .ToList();
+            set.Images = [.. (await BricksetApiService.GetAdditionalImages(getAdditionalImagesParameters).ConfigureAwait(false)).ToImageEnumerable()];
         }
 
         private static void SetPriceList(Set set, SetLegoCom legoCom)
@@ -178,9 +176,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Instructions = (await BricksetApiService.GetInstructions(getInstructionsParameters).ConfigureAwait(false))
-                    .ToInstructionEnumerable()
-                    .ToList();
+            set.Instructions = [.. (await BricksetApiService.GetInstructions(getInstructionsParameters).ConfigureAwait(false)).ToInstructionEnumerable()];
         }
 
         protected async Task<IList<Sets>> GetAllSetsFor(string apiKey, GetSetsParameters getSetsParameters)
@@ -197,7 +193,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameters.PageNumber = pageNumber;
 
-                currentPageResults = (await BricksetApiService.GetSets(getSetsParameters).ConfigureAwait(false)).ToList();
+                currentPageResults = [.. (await BricksetApiService.GetSets(getSetsParameters).ConfigureAwait(false))];
 
                 foundSets.AddRange(currentPageResults);
 
